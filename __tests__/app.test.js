@@ -96,9 +96,9 @@ describe("Reviews Tests", () => {
   });
 });
 
-describe.only('Users tests', () => {
+describe('Users tests', () => {
   describe('GET/users', () => {
-    test('Status 200, responds with  an array of objects, each object should have the following property', () => {
+    test('Status 200, responds with  an array of objects, each object should have the following properties: username, name, avatar_url ', () => {
       return request(app)
         .get("/api/users")
         .expect(200)
