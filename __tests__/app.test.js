@@ -95,3 +95,23 @@ describe("Reviews Tests", () => {
     });
   });
 });
+
+describe.only('Users tests', () => {
+  describe('GET/users', () => {
+    test('Status 200, responds with  an array of objects, each object should have the following property', () => {
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then((result) => {
+          const userArr = result.body.users;
+          expect(userArr).toBeInstanceOf(Array);
+          expect(userArr.length).toBe(4);
+          userArr.forEach((category) => {
+            expect(category.hasOwnProperty("username")).toBe(true);
+            expect(category.hasOwnProperty("name")).toBe(true);
+            expect(category.hasOwnProperty("avatar_url")).toBe(true);
+          });
+        });
+    });
+  });
+});
