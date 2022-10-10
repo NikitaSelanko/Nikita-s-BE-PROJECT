@@ -39,7 +39,6 @@ describe("Categories tests", () => {
         .expect(200)
         .then((result) => {
           const catArr = result.body.categories;
-          console.log(catArr, "TEST <<<<<<<<<<<<<<<");
           catArr.forEach((category) => {
             expect(catArr[0]).toEqual(
               expect.objectContaining({
