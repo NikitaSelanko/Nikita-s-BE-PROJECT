@@ -1,7 +1,7 @@
 const db = require("../db/connection");
 
 exports.selectReviews = () => {
-  return db.query("SELECT * FROM categories;").then((data) => {
+  return db.query("SELECT * FROM reviews;").then((data) => {
     return data.rows;
   });
 };
