@@ -16,7 +16,7 @@ afterAll(() => {
   return db.end();
 });
 
-describe("Categories tests", () => {
+describe("Categories TESTS", () => {
   describe("Get/categories", () => {
     test("status 200, should responde withan array of categories ", () => {
       return request(app)
@@ -51,7 +51,7 @@ describe("Categories tests", () => {
   });
 });
 
-describe("Reviews Tests", () => {
+describe("Reviews TESTS", () => {
   describe("Get/reviews", () => {
     test("status 200, responds with object which should have the following properties ", () => {
       return request(app)
@@ -75,25 +75,7 @@ describe("Reviews Tests", () => {
           );
         });
     });
-    describe("ERROR's", () => {
-      test("status: 400, Bad Request", () => {
-        return request(app)
-          .get("/api/reviews/helloboyz")
-          .expect(400)
-          .then(({ body: { msg } }) => {
-            expect(msg).toBe("wrong input");
-          });
-      });
-      test("status: 404, Not Found", () => {
-        return request(app)
-          .get("/api/reviews/10000000")
-          .expect(404)
-          .then(({ body: { msg } }) => {
-            expect(msg).toBe("ID NOT FOUND");
-          });
-      });
-    });
-  });
+   
   describe('PATCH/reviews', () => {  
       test("status 200: should update votes on selected review and return updated object ", () => {
         return request(app)
@@ -116,7 +98,7 @@ describe("Reviews Tests", () => {
   });
 });
 
-describe('Users tests', () => {
+describe('Users TESTS', () => {
   describe('GET/users', () => {
     test('Status 200, responds with  an array of objects, each object should have the following properties: username, name, avatar_url ', () => {
       return request(app)
@@ -134,4 +116,46 @@ describe('Users tests', () => {
         });
     });
   });
+});
+describe("ERROR's", () => {
+  describe('GET error handling', () => {
+    test("status: 400, Bad Request", () => {
+      return request(app)
+        .get("/api/reviews/helloboyz")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("wrong input");
+        });
+    });
+    test("status: 404, Not Found", () => {
+      return request(app)
+        .get("/api/reviews/10000000")
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("ID NOT FOUND");
+        });
+    });
+  });
+  describe('PATCH error handling', () => {
+    test("status: 400, when property is  missing", () => {
+      return request(app)
+        .patch("/api/reviews/1")
+        .send({})
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("wrong input");
+        });
+    });
+    test("status: 400, when property is not a number", () => {
+      return request(app)
+        .patch("/api/reviews/1")
+        .send({ inc_votes: "something that's NaN" })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("wrong input");
+        });
+    });
+  });
+  
+});
 });
