@@ -121,7 +121,7 @@ describe("ERROR's", () => {
   describe('GET error handling', () => {
     test("status: 400, Bad Request", () => {
       return request(app)
-        .get("/api/reviews/helloboyz")
+        .get("/api/reviews/not an ID")
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toBe("wrong input");
@@ -155,6 +155,25 @@ describe("ERROR's", () => {
           expect(msg).toBe("wrong input");
         });
     });
+    test("status: 404, when no id exists", () => {
+      return request(app)
+        .patch("/api/reviews/123")
+        .send({ inc_votes: 5 })
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("ID NOT FOUND");
+        });
+    });
+    test("status: 400, Bad Request", () => {
+      return request(app)
+        .patch("/api/reviews/not an ID")
+        .send({ inc_votes: 5 })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("wrong input");
+        });
+    });
+
   });
   
 });

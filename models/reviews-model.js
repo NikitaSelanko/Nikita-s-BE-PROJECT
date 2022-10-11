@@ -11,6 +11,7 @@ exports.selectReviewsByID = (review_id) => {
     .query(`SELECT * FROM reviews WHERE review_id =$1`, [review_id])
     .then(({ rows: [review] }) => {
       if (review) {
+       
         return review;
       }
       return Promise.reject({ status: 404, msg: "ID NOT FOUND" });
@@ -24,7 +25,11 @@ exports.updateVotes = (review_id, votes) => {
   return db
   .query(`UPDATE reviews SET votes=votes+$1 WHERE review_id=$2 RETURNING *`,[votes, review_id])
   .then(({ rows: [review]})=>{
-    return review;
+    if(review === undefined){
+      return Promise.reject({ status: 404, msg: "ID NOT FOUND" });
+    }
+       return review
+   
     })
   }
 }
