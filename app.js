@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const { getCategories } = require("./controllers/categories-controller");
 const { getReviewByID, patchVotes} = require("./controllers/reviews-controller");
-const {getUsers} = require("./controllers/users-controller")
-const {handleInternalErrors, handleCustomErrors, handlePSQLErrors} = require("./controllers/error-controllers")
+const {getUsers} = require("./controllers/users-controller");
+const {handleInternalErrors, handleCustomErrors, handlePSQLErrors} = require("./controllers/error-controllers");
 
 
 app.use(express.json());

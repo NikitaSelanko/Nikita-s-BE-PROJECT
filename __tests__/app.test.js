@@ -71,6 +71,7 @@ describe("Reviews TESTS", () => {
               category: "dexterity",
               owner: "philippaclaire9",
               created_at: expect.any(String),
+              comment_count: "3",
             })
           );
         });
