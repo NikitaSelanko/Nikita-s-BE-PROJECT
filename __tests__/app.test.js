@@ -136,17 +136,13 @@ describe("Reviews TESTS", () => {
           });
         });
     });
-    test("query category is passed/ returns array of objects where catagory is dexterity, and order is still DESC ", () => {
+    test("query category is passed/ returns array of objects where catagory is dexterity, and ", () => {
       return request(app)
         .get("/api/reviews?category=dexterity")
         .expect(200)
         .then(({ body: { reviews } }) => {
           reviews.forEach((review) => {
             expect(review.category).toBe("dexterity");
-            expect(reviews).toBeSortedBy("created_at", {
-              descending: true,
-              coerce: true,
-            });
           });
         });
     });

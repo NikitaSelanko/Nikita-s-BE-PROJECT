@@ -42,7 +42,7 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {
         }
         return result.rows;
       });
-  } else
+  } else   //// STOP
     return db
       .query(
         `
