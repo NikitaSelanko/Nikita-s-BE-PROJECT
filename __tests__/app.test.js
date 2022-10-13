@@ -141,6 +141,7 @@ describe("Reviews TESTS", () => {
         .get("/api/reviews?category=dexterity")
         .expect(200)
         .then(({ body: { reviews } }) => {
+          expect(reviews.length).toBeGreaterThan(0);
           reviews.forEach((review) => {
             expect(review.category).toBe("dexterity");
           });
