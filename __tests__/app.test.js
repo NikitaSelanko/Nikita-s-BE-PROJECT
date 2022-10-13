@@ -148,7 +148,53 @@ describe("Reviews TESTS", () => {
         });
     });
   });
+  describe('GET/reviews/:review_id/comments', () => {
+    test('Status 200: should return an array of objects containing the comments for a specific review', () => {
+      return request(app)
+        .get(`/api/reviews/2/comments`)
+        .expect(200)
+        .then(({ body: { comments } }) => {
+          expect(comments).toBeInstanceOf(Array);
+          expect(comments.length).toBeGreaterThan(0);
+          comments.forEach((comment) => {
+            expect(comment).toEqual(
+              expect.objectContaining({
+                body: expect.any(String),
+                votes: expect.any(Number),
+                author: expect.any(String),
+                review_id: expect.any(Number),
+                created_at: expect.any(String),
+              })
+            );
+          });
+        });
+    });
+    });
+    test("200, comments should be served with the most recent comments first", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body: { comments } }) => {
+          expect(comments).toBeSortedBy("created_at", { descending: true });
+        });
+    });
+    test('Status 400:  if invalid user_id', () => {
+      return request(app)
+      .get('/api/reviews/notAnId/comments')
+      .expect(400)
+      .then((res) => {
+          expect(res.body.msg).toBe('wrong input')
+      })
+  });
+  test('Status 404, if non existing id ', () => {
+    return request(app)
+    .get('/api/reviews/23123/comments')
+    .expect(404)
+    .then((res) => {
+        expect(res.body.msg).toBe('ID NOT FOUND');
+    })
 
+  })
   describe("Users TESTS", () => {
     describe("GET/users", () => {
       test("Status 200, responds with  an array of objects, each object should have the following properties: username, name, avatar_url ", () => {
@@ -242,4 +288,4 @@ describe("Reviews TESTS", () => {
       });
     });
   });
-});
+})
