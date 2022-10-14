@@ -2,6 +2,7 @@ const { selectReviewsByID, updateVotes, selectReviews } = require("../models/rev
 
 exports.getReviewByID = (req, res, next) => {
   const id = req.params.review_id;
+
   selectReviewsByID(id)
     .then((review) => {
       res.status(200).send({ review });
