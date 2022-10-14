@@ -178,7 +178,7 @@ describe("Reviews TESTS", () => {
           expect(comments).toBeSortedBy("created_at", { descending: true });
         });
     });
-    test('Status 400:  if invalid user_id', () => {
+    test('Status 400:  if invalid review_id', () => {
       return request(app)
       .get('/api/reviews/notAnId/comments')
       .expect(400)
@@ -193,8 +193,16 @@ describe("Reviews TESTS", () => {
     .then((res) => {
         expect(res.body.msg).toBe('ID NOT FOUND');
     })
-
   })
+  test('Status 200, return empty array if no comments on that review ', () => {
+    return request(app)
+    .get("/api/reviews/1/comments")
+    .expect(200)
+    .then(({ body: {comments} })=>{
+      expect(comments).toBeInstanceOf(Array);
+      expect(comments).toEqual([])
+    })
+  });
   describe("Users TESTS", () => {
     describe("GET/users", () => {
       test("Status 200, responds with  an array of objects, each object should have the following properties: username, name, avatar_url ", () => {

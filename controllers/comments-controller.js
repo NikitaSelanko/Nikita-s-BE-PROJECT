@@ -1,4 +1,5 @@
 const {fetchCommentsByreviewID} = require("../models/comments-model")
+const{selectReviewsByID} = require("..//models/reviews-model")
 
 
 exports.getCommentsByReviewID = (req, res, next) => {
