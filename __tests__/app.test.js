@@ -52,6 +52,64 @@ describe("Categories TESTS", () => {
 });
 
 describe("Reviews TESTS", () => {
+  describe('POST/reviews/:review_id/comments', () => {
+  test('201 || returns the new posted comment', () => {
+    const newComment = {
+      username: 'bainesface',
+      body: 'This game is the best game ever, yaaaayy',
+    };
+    return request(app)
+      .post('/api/reviews/1/comments')
+      .send(newComment)
+      .expect(201)
+      .then(({ body: { newComment } }) => {
+        expect(newComment).toEqual(
+          expect.objectContaining({
+            votes: expect.any(Number),
+            author: expect.any(String),
+            body: expect.any(String),
+            review_id: expect.any(Number),
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+  test('400: if the post object is empty send back wrong input', () => {
+    const newComment = {};
+    return request(app)
+      .post('/api/reviews/1/comments')
+      .send(newComment)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe('wrong input');
+      });
+  });
+  test('400: username field is empty send back bad request error', () => {
+    const newComment = {
+      body: 'myNameIsBetter',
+    };
+    return request(app)
+      .post('/api/reviews/1/comments')
+      .send(newComment)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe('wrong input');
+      });
+  });
+  test('400: review_id is an invalid entry return bad request error', () => {
+    const newComment = {
+      username: 'kappa123',
+      body: 'pepeFace',
+    };
+    return request(app)
+      .post('/api/reviews/pepe/comments')
+      .send(newComment)
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe('wrong input');
+      });
+  });
+  });
   describe("Get/reviews/ID", () => {
     test("status 200, responds with object which should have the following properties ", () => {
       return request(app)
