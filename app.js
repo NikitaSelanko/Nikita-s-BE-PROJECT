@@ -5,8 +5,10 @@ const { getReviewByID, patchVotes, getReviews} = require("./controllers/reviews-
 const {getUsers} = require("./controllers/users-controller");
 const {handleInternalErrors, handleCustomErrors, handlePSQLErrors} = require("./controllers/error-controllers");
 const {getCommentsByReviewID,postCommentsByReviewID} = require("./controllers/comments-controller")
+const cors = require('cors');
 
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/api/categories", getCategories);
